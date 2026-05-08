@@ -1,0 +1,14 @@
+FINAL MODEL: structured_pca6 + GMM(spherical, k=6)
+BIC=2246.619397
+AIC=2118.018070
+loglik=-8.877272
+silhouette=0.249526
+cv_test_loglik_mean=-9.995713389452595
+cv_test_loglik_std=0.9004282262904331
+cv_train_bic_mean=1792.6787318701136
+cv_train_bic_std=45.762635238383915
+cv_sil_mean=0.20693964007498028
+ari_mean=0.4108003363963591
+ari_std=0.1360176246965248
+nmi_mean=0.5968216418601417
+nmi_std=0.09435466443679741
