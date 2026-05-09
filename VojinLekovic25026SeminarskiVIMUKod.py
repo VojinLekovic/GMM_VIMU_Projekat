@@ -28,11 +28,26 @@ QUANT_RE = re.compile(r"^\s*([0-9]+(?:[.,][0-9]+)?)?\s*([A-Za-zčćžšđČĆŽ�
 
 
 def parse_args():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    default_data_dir = os.path.join(script_dir, "Domace.me Fetch-ovani Podaci")
+
     parser = argparse.ArgumentParser()
-    parser.add_argument("--products", required=True)
-    parser.add_argument("--shops", required=True)
-    parser.add_argument("--users", required=True)
-    parser.add_argument("--out_dir", default="results")
+    parser.add_argument(
+        "--products",
+        default=os.path.join(default_data_dir, "products.csv"),
+        help="Path to products CSV file",
+    )
+    parser.add_argument(
+        "--shops",
+        default=os.path.join(default_data_dir, "shops.csv"),
+        help="Path to shops CSV file",
+    )
+    parser.add_argument(
+        "--users",
+        default=os.path.join(default_data_dir, "users.csv"),
+        help="Path to users CSV file",
+    )
+    parser.add_argument("--out_dir", default="results", help="Output directory for results")
     return parser.parse_args()
 
 
@@ -466,7 +481,7 @@ def make_plots(segmented, original_df, X_pca, model_selection, out_dir):
     axes[1].set_ylabel("Frekvencija")
 
     fig.tight_layout()
-    fig.savefig(os.path.join(out_dir, "price_histograms.png"), dpi=200)
+    fig.savefig(os.path.join(out_dir, "price_histograms.tiff"), dpi=300)
     plt.close(fig)
 
     fig, axes = plt.subplots(1, 2, figsize=(12, 5))
@@ -487,7 +502,7 @@ def make_plots(segmented, original_df, X_pca, model_selection, out_dir):
     axes[1].legend()
 
     fig.tight_layout()
-    fig.savefig(os.path.join(out_dir, "bic_aic.png"), dpi=200)
+    fig.savefig(os.path.join(out_dir, "bic_aic.tiff"), dpi=300)
     plt.close(fig)
 
     fig, ax = plt.subplots(figsize=(8, 5))
@@ -497,7 +512,7 @@ def make_plots(segmented, original_df, X_pca, model_selection, out_dir):
     ax.set_ylabel("PC2")
     fig.colorbar(scatter, ax=ax, label="Klaster")
     fig.tight_layout()
-    fig.savefig(os.path.join(out_dir, "pca_scatter.png"), dpi=200)
+    fig.savefig(os.path.join(out_dir, "pca_scatter.tiff"), dpi=300)
     plt.close(fig)
 
     plot_df = segmented[["price", "saved_count", "followers_count", "delivery_cities_count"]].copy()
@@ -506,7 +521,7 @@ def make_plots(segmented, original_df, X_pca, model_selection, out_dir):
         ax.tick_params(axis="x", labelrotation=45)
     plt.suptitle("Scatter-matrix odabranih osobina")
     plt.tight_layout()
-    plt.savefig(os.path.join(out_dir, "scatter_matrix.png"), dpi=200)
+    plt.savefig(os.path.join(out_dir, "scatter_matrix.tiff"), dpi=300)
     plt.close()
 
     prob_cols = [col for col in segmented.columns if col.startswith("p_cluster_")]
@@ -518,7 +533,7 @@ def make_plots(segmented, original_df, X_pca, model_selection, out_dir):
     ax.set_ylabel("Proizvod")
     fig.colorbar(image, ax=ax)
     fig.tight_layout()
-    fig.savefig(os.path.join(out_dir, "posterior_heatmap.png"), dpi=200)
+    fig.savefig(os.path.join(out_dir, "posterior_heatmap.tiff"), dpi=300)
     plt.close(fig)
 
 
